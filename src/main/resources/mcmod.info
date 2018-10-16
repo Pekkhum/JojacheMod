@@ -1,0 +1,16 @@
+[
+{
+  "modid": "jojachemod",
+  "name": "Jojache Mod",
+  "description": "This mod was created as a gift for Jojache's birthday!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Pekkhum"],
+  "credits": "Jojache, for being so awesome!",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
