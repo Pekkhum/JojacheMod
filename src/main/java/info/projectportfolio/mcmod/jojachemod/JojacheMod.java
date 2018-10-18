@@ -1,6 +1,7 @@
 package info.projectportfolio.mcmod.jojachemod;
 
 import net.minecraft.init.Blocks;
+import net.minecraftforge.common.config.Config;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -25,6 +26,7 @@ public class JojacheMod
     public void preInit(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
+        net.minecraftforge.common.config.ConfigManager.load("JojacheMod", Config.Type.INSTANCE);
     }
 
     @EventHandler
