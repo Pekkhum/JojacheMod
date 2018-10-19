@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +16,9 @@ public class JojacheMod
     public static final String MODID = "jojachemod";
     public static final String NAME = "Jojache Mod";
     public static final String VERSION = "0.0.1";
+
+    @Mod.Instance
+    public static JojacheMod instance;
 
     @SidedProxy(clientSide = "info.projectportfolio.mcmod.jojachemod.ClientProxy", serverSide = "info.projectportfolio.mcmod.jojachemod.ServerProxy")
     public static CommonProxy proxy;
@@ -26,16 +30,19 @@ public class JojacheMod
         return logger;
     }
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    @Mod.EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        ConfigManager.load("JojacheMod", Config.Type.INSTANCE);
+        proxy.preInit(event);
     }
 
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        logger.info("{} finished initialization.", NAME);
+    @Mod.EventHandler
+    public void init(FMLInitializationEvent e) {
+        proxy.init(e);
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent e) {
+        proxy.postInit(e);
     }
 }
