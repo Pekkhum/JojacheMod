@@ -1,9 +1,10 @@
 package info.projectportfolio.mcmod.jojachemod;
 
-import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +14,10 @@ public class JojacheMod
 {
     public static final String MODID = "jojachemod";
     public static final String NAME = "Jojache Mod";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "0.0.1";
+
+    @SidedProxy(clientSide = "info.projectportfolio.mcmod.jojachemod.ClientProxy", serverSide = "info.projectportfolio.mcmod.jojachemod.ServerProxy")
+    public static CommonProxy proxy;
 
     private static Logger logger;
 
@@ -26,7 +30,7 @@ public class JojacheMod
     public void preInit(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
-        net.minecraftforge.common.config.ConfigManager.load("JojacheMod", Config.Type.INSTANCE);
+        ConfigManager.load("JojacheMod", Config.Type.INSTANCE);
     }
 
     @EventHandler
