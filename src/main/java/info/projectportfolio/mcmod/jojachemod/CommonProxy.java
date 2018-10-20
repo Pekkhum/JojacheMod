@@ -1,5 +1,6 @@
 package info.projectportfolio.mcmod.jojachemod;
 
+import info.projectportfolio.mcmod.jojachemod.packet.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Config;
@@ -18,6 +19,9 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent e)
     {
         ConfigManager.load(JojacheMod.MODID, Config.Type.INSTANCE);
+        // Initialize our packet handler. Make sure the name is
+        // 20 characters or less!
+        PacketHandler.registerMessages("jojachemod");
     }
 
     public void init(FMLInitializationEvent e)

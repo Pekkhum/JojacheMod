@@ -10,3 +10,10 @@ item.jojachemod.item_stopwatch.name=Stopwatch
 
 
 # commands
+
+
+
+# messages
+
+message.jojachemod.item_stopwatch.timer_started=Timer started...
+message.jojachemod.item_stopwatch.ticks_elapsed=Ticks Elapsed: %s
