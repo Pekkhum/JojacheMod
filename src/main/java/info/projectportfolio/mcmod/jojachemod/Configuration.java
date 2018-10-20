@@ -1,9 +1,12 @@
 package info.projectportfolio.mcmod.jojachemod;
 
 import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.Config.*;
+import net.minecraftforge.common.config.Config.Comment;
+import net.minecraftforge.common.config.Config.Name;
+import net.minecraftforge.common.config.Config.RangeInt;
+import net.minecraftforge.common.config.Config.Type;
 
-@Config(modid="jojachemod", name="JojacheMod", type=Type.INSTANCE, category="General")
+@Config(modid=JojacheMod.MODID, name="JojacheMod", type=Type.INSTANCE, category="General")
 public class Configuration {
     @Comment({
             "This decides whether or not creepers 'become wet' when they touch fluids, ",

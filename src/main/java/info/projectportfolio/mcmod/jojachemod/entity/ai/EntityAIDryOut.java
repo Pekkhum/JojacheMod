@@ -24,7 +24,7 @@ public class EntityAIDryOut extends EntityAIBase {
         this.creature = entityIn;
         isCreeper = this.creature instanceof EntityCreeper;
         this.maxWetness = maxWetnessIn;
-        this.setMutexBits(1);
+        this.setMutexBits(1); // This needs to block chasing the player and detonation, so movement bit is used.
     }
 
     /**
@@ -43,22 +43,17 @@ public class EntityAIDryOut extends EntityAIBase {
             return true;
         }
         // If we are dry, there is nothing to dry out.
-        if(currentWetness == 0)
-        {
-            return false;
-        }
-
-        return true;
+        return currentWetness != 0;
     }
 
-    /**
+    /*
      * Execute a one shot task or start executing a continuous task
      */
     //public void startExecuting()
     //{
     //}
 
-    /**
+    /*
      * Reset the task's internal state. Called when this task is interrupted by another one
      */
     //public void resetTask()

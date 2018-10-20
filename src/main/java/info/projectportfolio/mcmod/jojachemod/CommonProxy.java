@@ -11,6 +11,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import info.projectportfolio.mcmod.jojachemod.item.ItemStopwatch;
+
 @Mod.EventBusSubscriber
 public class CommonProxy {
     public void preInit(FMLPreInitializationEvent e)
@@ -34,5 +36,6 @@ public class CommonProxy {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)
     {
+        event.getRegistry().registerAll(new ItemStopwatch());
     }
 }

@@ -7,6 +7,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
+//Tick stopwatch
+
 @Mod(modid = JojacheMod.MODID, name = JojacheMod.NAME, version = JojacheMod.VERSION)
 public class JojacheMod
 {
