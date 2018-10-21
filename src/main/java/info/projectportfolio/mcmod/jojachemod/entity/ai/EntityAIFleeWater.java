@@ -7,9 +7,6 @@ import info.projectportfolio.mcmod.jojachemod.capability.ICapabilityWetness;
 import info.projectportfolio.mcmod.jojachemod.capability.ProviderCapabilityWetness;
 import info.projectportfolio.mcmod.jojachemod.packet.PacketHandler;
 import info.projectportfolio.mcmod.jojachemod.packet.PacketWetness;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleRain;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -55,7 +52,7 @@ public class EntityAIFleeWater extends EntityAIBase
             wetCap = creature.getCapability(ProviderCapabilityWetness.CAPABILITY_WETNESS, null);
             if(wetCap != null)
             {
-                //TODO: All wetness logic needs to go into one class.
+                //TODO: All wetness drawing logic needs to go into one class.
                 wetCap.setWetness(50);
                 PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), 50),
                         new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));

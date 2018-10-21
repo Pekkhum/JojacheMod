@@ -73,15 +73,18 @@ public class PacketWetness implements IMessage
                 if(wetCap != null)
                 {
                     wetCap.setWetness(message.wetness);
+                    //TODO: All wetness drawing logic needs to go into one class.
                     //TODO: maxWetness here
                     dripWater(ent, (int) ((((double) message.wetness) / (double) 50) * 5));
                 }
             }
         }
 
-        private ParticleRain.Factory dropMaker = new ParticleRain.Factory();
+
+        //TODO: All wetness drawing logic needs to go into one class.
         private void dripWater(Entity ent, int dropCount)
         {
+            ParticleRain.Factory dropMaker = new ParticleRain.Factory();
             AxisAlignedBB creatureBB = ent.getEntityBoundingBox();
 
             for(int count = 0 ; count < dropCount; count ++) {
