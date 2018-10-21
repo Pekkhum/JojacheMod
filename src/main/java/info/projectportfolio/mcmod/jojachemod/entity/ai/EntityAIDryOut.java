@@ -1,14 +1,13 @@
 package info.projectportfolio.mcmod.jojachemod.entity.ai;
 
 import info.projectportfolio.mcmod.jojachemod.capability.ICapabilityWetness;
-import info.projectportfolio.mcmod.jojachemod.capability.WetnessProvider;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleRain;
+import info.projectportfolio.mcmod.jojachemod.capability.ProviderCapabilityWetness;
+import info.projectportfolio.mcmod.jojachemod.packet.PacketHandler;
+import info.projectportfolio.mcmod.jojachemod.packet.PacketWetness;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class EntityAIDryOut extends EntityAIBase {
 
@@ -32,21 +31,33 @@ public class EntityAIDryOut extends EntityAIBase {
      */
     public boolean shouldExecute()
     {
-        boolean execute = false;
+        boolean execute;
+        ICapabilityWetness wetCap;
+
+        wetCap = creature.getCapability(ProviderCapabilityWetness.CAPABILITY_WETNESS, null);
+        if(wetCap == null)
+            return false;
+
         // Entity is in water, so become wet, but don't start drying out.
         if(creature.world.containsAnyLiquid(this.creature.getEntityBoundingBox())) {
-            ICapabilityWetness wetCap;
-            if(isCreeper)
+
+            if(wetCap.getWetness() != this.maxWetness)
             {
-                ((EntityCreeper)creature).setCreeperState(-1);
-            }
-            wetCap = creature.getCapability(WetnessProvider.CAPABILITY_WETNESS, null);
-            if(wetCap != null)
-            {
+                //TODO: All wetness logic needs to go into one class.
                 wetCap.setWetness(this.maxWetness);
-                dripWater(2);
+                PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), this.maxWetness),
+                        new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
             }
-            return true;
+            execute = false;
+        }
+        else
+        {
+            execute = wetCap.getWetness() > 0;
+        }
+
+        if(execute && isCreeper)
+        {
+            ((EntityCreeper)creature).setCreeperState(-1);
         }
         // If we are dry, there is nothing to dry out.
         return execute;
@@ -57,7 +68,7 @@ public class EntityAIDryOut extends EntityAIBase {
      */
     public void updateTask()
     {
-        ICapabilityWetness wetCap = creature.getCapability(WetnessProvider.CAPABILITY_WETNESS, null);
+        ICapabilityWetness wetCap = creature.getCapability(ProviderCapabilityWetness.CAPABILITY_WETNESS, null);
 
 
         if(wetCap != null)
@@ -65,28 +76,16 @@ public class EntityAIDryOut extends EntityAIBase {
             long wetness = wetCap.getWetness();
             if(wetness > 0)
             {
+                wetness--;
                 if (isCreeper)
                 {
                     ((EntityCreeper) creature).setCreeperState(-1);
                 }
-                //TODO: Particles! Client-side only!
-                dripWater((int) ((((double) wetness) / (double) maxWetness) * 5));
-                wetCap.setWetness(wetness - 1);
+                //TODO: All wetness logic needs to go into one class.
+                wetCap.setWetness(wetness);
+                PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), wetness),
+                        new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
             }
-        }
-    }
-
-    private ParticleRain.Factory dropMaker = new ParticleRain.Factory();
-    private void dripWater(int dropCount)
-    {
-        AxisAlignedBB creatureBB = this.creature.getEntityBoundingBox();
-
-        for(int count = 0 ; count < dropCount; count ++) {
-            double spawnX = creatureBB.minX + (creatureBB.maxX - creatureBB.minX) * Math.random();
-            double spawnY = creatureBB.minY + (creatureBB.maxY - creatureBB.minY) * Math.random();
-            double spawnZ = creatureBB.minZ + (creatureBB.maxZ - creatureBB.minZ) * Math.random();
-            Particle drop = dropMaker.createParticle(0, creature.world, spawnX, spawnY, spawnZ, 0,-10,0);
-            Minecraft.getMinecraft().effectRenderer.addEffect(drop);
         }
     }
 }

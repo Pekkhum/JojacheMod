@@ -18,9 +18,12 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import info.projectportfolio.mcmod.jojachemod.item.ItemStopwatch;
+import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
+    public static Side proxySide = null;
+
     public void preInit(FMLPreInitializationEvent e)
     {
         ConfigManager.load(JojacheMod.MODID, Config.Type.INSTANCE);

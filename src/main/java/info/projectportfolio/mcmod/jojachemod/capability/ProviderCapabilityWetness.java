@@ -9,7 +9,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class WetnessProvider implements ICapabilitySerializable<NBTBase>
+public class ProviderCapabilityWetness implements ICapabilitySerializable<NBTBase>
 {
     @CapabilityInject(ICapabilityWetness.class)
     public static final Capability<ICapabilityWetness> CAPABILITY_WETNESS = null;
@@ -26,7 +26,7 @@ public class WetnessProvider implements ICapabilitySerializable<NBTBase>
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing)
     {
-        return capability == CAPABILITY_WETNESS ? CAPABILITY_WETNESS.<T> cast(this.instance) : null;
+        return capability == CAPABILITY_WETNESS ? CAPABILITY_WETNESS.cast(this.instance) : null;
     }
 
     @Override

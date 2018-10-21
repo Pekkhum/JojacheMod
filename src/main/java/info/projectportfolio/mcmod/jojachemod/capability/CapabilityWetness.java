@@ -1,5 +1,7 @@
 package info.projectportfolio.mcmod.jojachemod.capability;
 
+import info.projectportfolio.mcmod.jojachemod.JojacheMod;
+
 public class CapabilityWetness implements ICapabilityWetness
 {
     private long wetness;

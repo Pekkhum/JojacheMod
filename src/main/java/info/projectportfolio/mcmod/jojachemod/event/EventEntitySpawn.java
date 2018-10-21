@@ -1,7 +1,7 @@
 package info.projectportfolio.mcmod.jojachemod.event;
 
 import info.projectportfolio.mcmod.jojachemod.JojacheMod;
-import info.projectportfolio.mcmod.jojachemod.capability.WetnessProvider;
+import info.projectportfolio.mcmod.jojachemod.capability.ProviderCapabilityWetness;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -21,9 +21,12 @@ public class EventEntitySpawn {
     public static final ResourceLocation RESOURCE_LOC_CAPABILITY_WETNESS = new ResourceLocation(JojacheMod.MODID, "ICapabilityWetness");
 
     @SubscribeEvent
-    public void onEntityConstruct(AttachCapabilitiesEvent<Entity> evt)
+    public static void onAddCapabilitiesEntity(AttachCapabilitiesEvent<Entity> evt)
     {
-        evt.addCapability(RESOURCE_LOC_CAPABILITY_WETNESS, new WetnessProvider());
+        if(evt.getObject() instanceof EntityCreeper)
+        {
+            evt.addCapability(RESOURCE_LOC_CAPABILITY_WETNESS, new ProviderCapabilityWetness());
+        }
     }
 
     @SubscribeEvent

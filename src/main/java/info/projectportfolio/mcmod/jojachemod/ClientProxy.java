@@ -12,6 +12,7 @@ import info.projectportfolio.mcmod.jojachemod.item.ItemInstances;
 public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
+        this.proxySide = Side.CLIENT;
         super.preInit(e);
     }
 
