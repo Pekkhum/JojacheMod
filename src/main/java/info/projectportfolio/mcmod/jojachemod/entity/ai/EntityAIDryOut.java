@@ -1,5 +1,7 @@
 package info.projectportfolio.mcmod.jojachemod.entity.ai;
 
+import info.projectportfolio.mcmod.jojachemod.capability.ICapabilityWetness;
+import info.projectportfolio.mcmod.jojachemod.capability.WetnessProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRain;
@@ -15,8 +17,6 @@ public class EntityAIDryOut extends EntityAIBase {
     private final boolean isCreeper;
     /** How wet the entity is **/
     private final long maxWetness;
-    /** How wet the entity is **/
-    private long currentWetness = 0;
 
 
     public EntityAIDryOut(EntityCreature entityIn, long maxWetnessIn)
@@ -32,48 +32,47 @@ public class EntityAIDryOut extends EntityAIBase {
      */
     public boolean shouldExecute()
     {
+        boolean execute = false;
         // Entity is in water, so become wet, but don't start drying out.
         if(creature.world.containsAnyLiquid(this.creature.getEntityBoundingBox())) {
+            ICapabilityWetness wetCap;
             if(isCreeper)
             {
                 ((EntityCreeper)creature).setCreeperState(-1);
             }
-            this.currentWetness = this.maxWetness;
-            dripWater(2);
+            wetCap = creature.getCapability(WetnessProvider.CAPABILITY_WETNESS, null);
+            if(wetCap != null)
+            {
+                wetCap.setWetness(this.maxWetness);
+                dripWater(2);
+            }
             return true;
         }
         // If we are dry, there is nothing to dry out.
-        return currentWetness != 0;
+        return execute;
     }
-
-    /*
-     * Execute a one shot task or start executing a continuous task
-     */
-    //public void startExecuting()
-    //{
-    //}
-
-    /*
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
-    //public void resetTask()
-    //{
-    //}
 
     /**
      * Keep ticking a continuous task that has already been started
      */
     public void updateTask()
     {
-        if(currentWetness > 0)
+        ICapabilityWetness wetCap = creature.getCapability(WetnessProvider.CAPABILITY_WETNESS, null);
+
+
+        if(wetCap != null)
         {
-            if(isCreeper)
+            long wetness = wetCap.getWetness();
+            if(wetness > 0)
             {
-                ((EntityCreeper)creature).setCreeperState(-1);
+                if (isCreeper)
+                {
+                    ((EntityCreeper) creature).setCreeperState(-1);
+                }
+                //TODO: Particles! Client-side only!
+                dripWater((int) ((((double) wetness) / (double) maxWetness) * 5));
+                wetCap.setWetness(wetness - 1);
             }
-            //TODO: Particles! Client-side only!
-            dripWater((int)((((double)currentWetness)/(double)maxWetness)*5));
-            currentWetness--;
         }
     }
 

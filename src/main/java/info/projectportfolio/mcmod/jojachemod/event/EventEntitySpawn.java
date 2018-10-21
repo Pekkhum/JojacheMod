@@ -1,7 +1,13 @@
 package info.projectportfolio.mcmod.jojachemod.event;
 
+import info.projectportfolio.mcmod.jojachemod.JojacheMod;
+import info.projectportfolio.mcmod.jojachemod.capability.WetnessProvider;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -12,15 +18,24 @@ import info.projectportfolio.mcmod.jojachemod.entity.ai.EntityAIDryOut;
 
 @Mod.EventBusSubscriber
 public class EventEntitySpawn {
+    public static final ResourceLocation RESOURCE_LOC_CAPABILITY_WETNESS = new ResourceLocation(JojacheMod.MODID, "ICapabilityWetness");
+
+    @SubscribeEvent
+    public void onEntityConstruct(AttachCapabilitiesEvent<Entity> evt)
+    {
+        evt.addCapability(RESOURCE_LOC_CAPABILITY_WETNESS, new WetnessProvider());
+    }
 
     @SubscribeEvent
     public static void onEntitySpawn(EntityJoinWorldEvent e)
     {
-        if(e.getWorld().isRemote) return;
+        World world = e.getWorld();
+        Entity entity = e.getEntity();
+
 
         if(e.getEntity() instanceof EntityCreeper)
         {
-            if(Configuration.creeperWetting)
+            if(Configuration.creeperWetting && !world.isRemote)
                 addMoistener((EntityCreeper) e.getEntity(), Configuration.creeperDryingTicks);
         }
     }

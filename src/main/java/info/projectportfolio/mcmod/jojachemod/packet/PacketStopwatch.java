@@ -34,11 +34,11 @@ public class PacketStopwatch implements IMessage
         if(buf.readableBytes() >= 12)
         {
             int length;
-            timeMark = buf.readLong();
+            this.timeMark = buf.readLong();
             length = buf.readInt();
             if(buf.readableBytes() >= length)
             {
-                hand = EnumHand.valueOf(buf.readCharSequence(length, StandardCharsets.UTF_8).toString());
+                this.hand = EnumHand.valueOf(buf.readCharSequence(length, StandardCharsets.UTF_8).toString());
             }
             else
                 JojacheMod.getLogger().error("Malformed stopwatch request: string length greater than remaining bytes.");
@@ -46,16 +46,16 @@ public class PacketStopwatch implements IMessage
         else
             JojacheMod.getLogger().error("Malformed stopwatch request: Not enough bytes in packet.");
 
-        if(hand == null)
-            hand = EnumHand.MAIN_HAND;
+        if(this.hand == null)
+            this.hand = EnumHand.MAIN_HAND;
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
-        String handStr = hand.toString();
+        String handStr = this.hand.toString();
         // Encoding the position as a long is more efficient
-        buf.writeLong(timeMark);
+        buf.writeLong(this.timeMark);
         buf.writeInt(handStr.length());
         buf.writeBytes(handStr.getBytes(StandardCharsets.UTF_8));
     }

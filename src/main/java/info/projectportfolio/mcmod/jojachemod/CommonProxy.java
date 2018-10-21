@@ -1,8 +1,13 @@
 package info.projectportfolio.mcmod.jojachemod;
 
+import info.projectportfolio.mcmod.jojachemod.capability.CapabilityWetness;
+import info.projectportfolio.mcmod.jojachemod.capability.CapabilityWetnessFactory;
+import info.projectportfolio.mcmod.jojachemod.capability.ICapabilityWetness;
 import info.projectportfolio.mcmod.jojachemod.packet.PacketHandler;
+import info.projectportfolio.mcmod.jojachemod.storage.StorageWetness;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
@@ -21,7 +26,8 @@ public class CommonProxy {
         ConfigManager.load(JojacheMod.MODID, Config.Type.INSTANCE);
         // Initialize our packet handler. Make sure the name is
         // 20 characters or less!
-        PacketHandler.registerMessages("jojachemod");
+        PacketHandler.registerMessages();
+        CapabilityManager.INSTANCE.register(ICapabilityWetness.class, new StorageWetness(), new CapabilityWetnessFactory());
     }
 
     public void init(FMLInitializationEvent e)
