@@ -52,10 +52,13 @@ public class EntityAIFleeWater extends EntityAIBase
             wetCap = creature.getCapability(ProviderCapabilityWetness.CAPABILITY_WETNESS, null);
             if(wetCap != null)
             {
-                //TODO: All wetness drawing logic needs to go into one class.
-                wetCap.setWetness(50);
-                PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), 50),
-                        new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
+                if(wetCap.getWetness() != 50)
+                {
+                    //TODO: All wetness logic needs to go into one class.
+                    wetCap.setWetness(50);
+                    PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), 50),
+                            new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
+                }
             }
             Vec3d vec3d = this.findPossibleDryShelter();
             if(isCreeper)
@@ -103,10 +106,13 @@ public class EntityAIFleeWater extends EntityAIBase
         wetCap = creature.getCapability(ProviderCapabilityWetness.CAPABILITY_WETNESS, null);
         if(wetCap != null)
         {
-            //TODO: All wetness logic needs to go into one class.
-            wetCap.setWetness(50);
-            PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), 50),
-                    new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
+            if(wetCap.getWetness() != 50)
+            {
+                //TODO: All wetness logic needs to go into one class.
+                wetCap.setWetness(50);
+                PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), 50),
+                        new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
+            }
         }
         if(isCreeper)
         {

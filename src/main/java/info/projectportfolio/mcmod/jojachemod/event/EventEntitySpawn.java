@@ -36,10 +36,10 @@ public class EventEntitySpawn {
         Entity entity = e.getEntity();
 
 
-        if(e.getEntity() instanceof EntityCreeper)
+        if(entity instanceof EntityCreeper)
         {
             if(Configuration.creeperWetting && !world.isRemote)
-                addMoistener((EntityCreeper) e.getEntity(), Configuration.creeperDryingTicks);
+                addMoistener((EntityCreeper) entity, Configuration.creeperDryingTicks);
         }
     }
 
