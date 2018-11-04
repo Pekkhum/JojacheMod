@@ -1,6 +1,7 @@
 package info.projectportfolio.mcmod.jojachemod.event;
 
 import info.projectportfolio.mcmod.jojachemod.JojacheMod;
+import info.projectportfolio.mcmod.jojachemod.capability.ICapabilityWetness;
 import info.projectportfolio.mcmod.jojachemod.capability.ProviderCapabilityWetness;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -45,7 +46,13 @@ public class EventEntitySpawn {
 
     private static void addMoistener(EntityCreature creature, int dryingTicks)
     {
-        creature.tasks.addTask(1, new EntityAIDryOut(creature, dryingTicks));
-        creature.tasks.addTask(0, new EntityAIFleeWater(creature, 1.25));
+        ICapabilityWetness wetCap = creature.getCapability(ProviderCapabilityWetness.CAPABILITY_WETNESS, null);
+
+        if(wetCap != null)
+        {
+            wetCap.setMaxTicksToDry(dryingTicks);
+            creature.tasks.addTask(1, new EntityAIDryOut(creature));
+            creature.tasks.addTask(0, new EntityAIFleeWater(creature, 1.25));
+        }
     }
 }

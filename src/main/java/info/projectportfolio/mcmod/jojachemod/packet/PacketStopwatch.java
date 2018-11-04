@@ -23,6 +23,7 @@ public class PacketStopwatch implements IMessage
         this.hand = handIn;
     }
 
+    // An empty constructor is required on the receiving side.
     public PacketStopwatch()
     {
     }

@@ -52,11 +52,9 @@ public class EntityAIFleeWater extends EntityAIBase
             wetCap = creature.getCapability(ProviderCapabilityWetness.CAPABILITY_WETNESS, null);
             if(wetCap != null)
             {
-                if(wetCap.getWetness() != 50)
+                if(wetCap.makeWet())
                 {
-                    //TODO: All wetness logic needs to go into one class.
-                    wetCap.setWetness(50);
-                    PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), 50),
+                    PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), wetCap),
                             new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
                 }
             }
@@ -106,11 +104,9 @@ public class EntityAIFleeWater extends EntityAIBase
         wetCap = creature.getCapability(ProviderCapabilityWetness.CAPABILITY_WETNESS, null);
         if(wetCap != null)
         {
-            if(wetCap.getWetness() != 50)
+            if(wetCap.makeWet())
             {
-                //TODO: All wetness logic needs to go into one class.
-                wetCap.setWetness(50);
-                PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), 50),
+                PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), wetCap),
                         new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
             }
         }

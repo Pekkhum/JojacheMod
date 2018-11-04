@@ -6,6 +6,6 @@ public class CapabilityWetnessFactory implements Callable<ICapabilityWetness>
 {
     @Override
     public ICapabilityWetness call() {
-        return new CapabilityWetness(0);
+        return new CapabilityWetness();
     }
 }

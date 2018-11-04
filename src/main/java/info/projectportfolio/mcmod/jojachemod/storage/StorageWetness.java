@@ -10,7 +10,8 @@ import javax.annotation.Nullable;
 
 public class StorageWetness implements Capability.IStorage<ICapabilityWetness>
 {
-    public static final String WETNESS_NBT_KEY = "";
+    public static final String WETNESS_NBT_KEY = "jojachemod_wetness";
+    public static final String TICKS_TO_DRY_NBT_KEY = "jojachemod_ticks_to_dry";
 
     @Nullable
     @Override
@@ -18,17 +19,19 @@ public class StorageWetness implements Capability.IStorage<ICapabilityWetness>
     {
         NBTTagCompound nbt = new NBTTagCompound();
 
-        nbt.setLong(WETNESS_NBT_KEY, instance.getWetness());
+        nbt.setInteger(WETNESS_NBT_KEY, instance.getWetness());
+        nbt.setLong(TICKS_TO_DRY_NBT_KEY, instance.getTicksToDry());
 
         return nbt;
-}
+    }
 
     @Override
     public void readNBT(Capability<ICapabilityWetness> capability, ICapabilityWetness instance, EnumFacing side, NBTBase nbt)
     {
-        if(nbt != null && nbt instanceof NBTTagCompound && ((NBTTagCompound) nbt).hasKey(WETNESS_NBT_KEY))
+        if(nbt instanceof NBTTagCompound && ((NBTTagCompound) nbt).hasKey(WETNESS_NBT_KEY))
         {
-            instance.setWetness(((NBTTagCompound) nbt).getLong(WETNESS_NBT_KEY));
+            instance.setWetness(((NBTTagCompound) nbt).getInteger(WETNESS_NBT_KEY));
+            instance.setTicksToDry(((NBTTagCompound) nbt).getLong(TICKS_TO_DRY_NBT_KEY));
         }
     }
 }

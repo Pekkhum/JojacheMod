@@ -14,15 +14,12 @@ public class EntityAIDryOut extends EntityAIBase {
     /** The entity that is drying. */
     private final EntityCreature creature;
     private final boolean isCreeper;
-    /** How wet the entity is **/
-    private final long maxWetness;
 
 
-    public EntityAIDryOut(EntityCreature entityIn, long maxWetnessIn)
+    public EntityAIDryOut(EntityCreature entityIn)
     {
         this.creature = entityIn;
         isCreeper = this.creature instanceof EntityCreeper;
-        this.maxWetness = maxWetnessIn;
         this.setMutexBits(1); // This needs to block chasing the player and detonation, so movement bit is used.
     }
 
@@ -41,12 +38,10 @@ public class EntityAIDryOut extends EntityAIBase {
         // Entity is in water, so become wet, but don't start drying out.
         if(creature.world.containsAnyLiquid(this.creature.getEntityBoundingBox())) {
 
-            if(wetCap.getWetness() != this.maxWetness)
+            if(wetCap.makeWet())
             {
-                //TODO: All wetness logic needs to go into one class.
-                wetCap.setWetness(this.maxWetness);
-                PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), this.maxWetness),
-                        new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
+                    PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), wetCap),
+                            new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
             }
             execute = false;
         }
@@ -70,21 +65,19 @@ public class EntityAIDryOut extends EntityAIBase {
     {
         ICapabilityWetness wetCap = creature.getCapability(ProviderCapabilityWetness.CAPABILITY_WETNESS, null);
 
-
         if(wetCap != null)
         {
-            long wetness = wetCap.getWetness();
-            if(wetness > 0)
+            if(wetCap.isWet())
             {
-                wetness--;
                 if (isCreeper)
                 {
                     ((EntityCreeper) creature).setCreeperState(-1);
                 }
-                //TODO: All wetness logic needs to go into one class.
-                wetCap.setWetness(wetness);
-                PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), wetness),
-                        new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
+                if(wetCap.tickWetness())
+                {
+                    PacketHandler.INSTANCE.sendToAllAround(new PacketWetness(creature.getEntityId(), wetCap),
+                            new NetworkRegistry.TargetPoint(creature.dimension, creature.posX, creature.posY, creature.posZ, 400));
+                }
             }
         }
     }

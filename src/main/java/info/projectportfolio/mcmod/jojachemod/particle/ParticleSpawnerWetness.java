@@ -63,7 +63,7 @@ public class ParticleSpawnerWetness
                     if (wetCap == null)
                         entityIdIterator.remove();
                     else
-                        dripWater(ent, (int)(5 * ((double) wetCap.getWetness() / (double) this.dryingTicks)));
+                        dripWater(ent, wetCap.getWetness());
                 }
                 else
                     entityIdIterator.remove();

@@ -13,14 +13,21 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class PacketWetness implements IMessage
 {
     private int entityId;
-    private long wetness;
+    private int maxWetness;
+    private long maxTicksToDry;
+    private int wetness;
+    private long ticksToDry;
 
-    public PacketWetness(int entityIdIn, long wetnessIn)
+    public PacketWetness(int entityIdIn, ICapabilityWetness wetCapIn)
     {
         this.entityId = entityIdIn;
-        this.wetness = wetnessIn;
+        this.maxWetness = wetCapIn.getMaxWetness();
+        this.maxTicksToDry = wetCapIn.getTicksToDry();
+        this.wetness = wetCapIn.getWetness();
+        this.ticksToDry = wetCapIn.getTicksToDry();
     }
 
+    // An empty constructor is required on the receiving side.
     public PacketWetness()
     {
     }
@@ -32,7 +39,10 @@ public class PacketWetness implements IMessage
         if(buf.readableBytes() >= 12)
         {
             this.entityId = buf.readInt();
-            this.wetness = buf.readLong();
+            this.maxWetness = buf.readInt();
+            this.maxTicksToDry = buf.readLong();
+            this.wetness = buf.readInt();
+            this.ticksToDry = buf.readLong();
         }
         else
             JojacheMod.getLogger().error("Malformed stopwatch request: Not enough bytes in packet.");
@@ -43,7 +53,10 @@ public class PacketWetness implements IMessage
     {
         // Encoding the position as a long is more efficient
         buf.writeInt(this.entityId);
-        buf.writeLong(this.wetness);
+        buf.writeInt(this.maxWetness);
+        buf.writeLong(this.maxTicksToDry);
+        buf.writeInt(this.wetness);
+        buf.writeLong(this.ticksToDry);
     }
 
     public static class Handler implements IMessageHandler<PacketWetness, IMessage>
@@ -69,7 +82,9 @@ public class PacketWetness implements IMessage
 
                 if(wetCap != null)
                 {
+                    wetCap.setMaxTicksToDry(message.maxTicksToDry);
                     wetCap.setWetness(message.wetness);
+                    wetCap.setTicksToDry(message.ticksToDry);
                 }
             }
         }
