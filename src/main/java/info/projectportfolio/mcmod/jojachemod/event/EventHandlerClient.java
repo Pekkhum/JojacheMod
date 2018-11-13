@@ -1,7 +1,6 @@
 package info.projectportfolio.mcmod.jojachemod.event;
 
 import info.projectportfolio.mcmod.jojachemod.Configuration;
-import info.projectportfolio.mcmod.jojachemod.JojacheMod;
 import info.projectportfolio.mcmod.jojachemod.particle.ParticleSpawnerWetness;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCreeper;

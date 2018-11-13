@@ -22,4 +22,8 @@ public class Configuration {
     @Name("Ticks to Dry Creepers")
     @RangeInt(min=0)
     public static int creeperDryingTicks = 50;
+
+    @Comment("Celebrate every day as every player's birthday. (This is more of a debug feature.)")
+    @Name("A Very Merry Unbirthday")
+    public static boolean merryUnbirthday = false;
 }

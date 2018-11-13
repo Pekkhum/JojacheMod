@@ -17,3 +17,8 @@ item.jojachemod.item_stopwatch.name=Stopwatch
 
 message.jojachemod.item_stopwatch.timer_started=Timer started...
 message.jojachemod.item_stopwatch.ticks_elapsed=Ticks Elapsed: %s
+message.jojachemod.birthday_joined=Everyone wish %s a happy birthday!
+
+# music
+
+sound.jojachemod.subtitle.cat_licking_birthday_cake=Birthday Song

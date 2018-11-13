@@ -1,0 +1,12 @@
+{
+  "cat_licking_birthday_cake": {
+    "category": "record",
+    "subtitle": "jojachemod.subtitle.cat_licking_birthday_cake",
+    "sounds": [
+      {
+        "name": "jojachemod:theres_a_cat_licking_your_birthday_cake",
+        "stream": true
+      }
+    ]
+  }
+}
